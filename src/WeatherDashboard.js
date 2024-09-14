@@ -29,31 +29,56 @@ class WeatherDashboard extends Component {
     this.fetchWeather(this.state.selectedCity);
   }
 
+    // Component did update lifecycle method
+    componentDidUpdate(prevProps, prevState) {
+        console.log('componentDidUpdate');
+        if (prevState.selectedCity !== this.state.selectedCity && this.state.loading) {
+          this.fetchWeather(this.state.selectedCity);
+        }
+      }
+    
+      // Handle city change
+      handleCityChange = (event) => {
+        this.setState({
+            selectedCity: event.target.value,
+            loading: true
+        });
+      }
 
-  render() {
-    const { weather, loading } = this.state;
 
-    return (
-      <div>
-        <h2>Weather Dashboard</h2>
-
-        {/* Show loading state or weather data */}
-        {loading ? (
-          <p>Loading weather data...</p>
-        ) : (
-          weather ? (
-            <div>
-              <h3>Weather in {weather.location.name}</h3>
-              <p>Temperature: {weather.current.temp_c}°C</p>
-              <p>Condition: {weather.current.condition.text}</p>
-            </div>
-          ) : (
-            <p>No weather data available.</p>
-          )
-        )}
-      </div>
-    );
-  }
+      render() {
+        const { weather, loading, selectedCity } = this.state;
+        const cities = ['London', 'New York', 'Tokyo', 'Paris', 'Sydney'];  // Cities to switch between
+    
+        return (
+          <div>
+            <h2>Weather Dashboard</h2>
+    
+            {/* Dropdown to select city */}
+            <label htmlFor="city-select">Choose a city: </label>
+            <select id="city-select" value={selectedCity} onChange={this.handleCityChange}>
+              {cities.map(city => (
+                <option key={city} value={city}>{city}</option>
+              ))}
+            </select>
+    
+            {/* Show loading state or weather data */}
+            {loading ? (
+              <p>Loading weather data...</p>
+            ) : (
+              weather ? (
+                <div>
+                  <h3>Weather in {weather.location.name}</h3>
+                  <p>Temperature: {weather.current.temp_c}°C</p>
+                  <p>Condition: {weather.current.condition.text}</p>
+                </div>
+              ) : (
+                <p>No weather data available.</p>
+              )
+            )}
+          </div>
+        );
+      }
 }
 
 export default WeatherDashboard;
