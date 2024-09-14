@@ -33,18 +33,21 @@ class WeatherDashboard extends Component {
     componentDidUpdate(prevProps, prevState) {
         console.log('componentDidUpdate');
         if (prevState.selectedCity !== this.state.selectedCity && this.state.loading) {
-          this.fetchWeather(this.state.selectedCity);
+            this.fetchWeather(this.state.selectedCity);
         }
-      }
-    
-      // Handle city change
-      handleCityChange = (event) => {
-        this.setState({
-            selectedCity: event.target.value,
-            loading: true
-        });
-      }
+    }
 
+    // Handle city change
+    handleCityChange = (event) => {
+    this.setState({
+        selectedCity: event.target.value,
+        loading: true
+    });
+    }
+
+    componentWillUnmount() {
+        console.log('componentWillUnmount')
+    }
 
       render() {
         const { weather, loading, selectedCity } = this.state;
