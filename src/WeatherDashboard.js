@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ChildComponent from './ChildComponent';
 
 class WeatherDashboard extends Component {
   constructor(props) {
@@ -7,6 +8,7 @@ class WeatherDashboard extends Component {
       weather: null,
       loading: true,
       selectedCity: 'London',  // Default city
+      buttonClicked: false
     };
   }
 
@@ -79,6 +81,13 @@ class WeatherDashboard extends Component {
                 <p>No weather data available.</p>
               )
             )}
+            <button onClick={() => {
+              this.setState({ buttonClicked: true })
+              console.log('button clicked')}
+          }>
+            Parent button
+          </button>
+            <ChildComponent city={selectedCity} />
           </div>
         );
       }
